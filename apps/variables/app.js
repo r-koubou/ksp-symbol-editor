@@ -158,7 +158,7 @@ function parseFieldInto(obj, str) {
 function needsQuoting(s) {
   if (s === '') return true;
   // YAML reserved scalars (bool / null)
-  if (/^(true|false|null|~|yes|no|on|off)$/i.test(s)) return true;
+  if (/^(true|True|TRUE|false|False|FALSE|null|~|yes|Yes|YES|no|No|NO|on|On|ON|off|Off|OFF|y|Y|n|N)$/.test(s)) return true;
   // Starts with a YAML indicator character
   if (/^[{[\-?:,|>!"'#&*%@`]/.test(s)) return true;
   // Contains ': ' — looks like a mapping value
@@ -201,7 +201,7 @@ function serializeYaml() {
     } else {
       yaml += `    Description: |-\n`;
       for (const line of desc.split('\n')) {
-        yaml += `      ${line}\n`;
+        yaml += line === '' ? '\n' : `      ${line}\n`;
       }
     }
 
