@@ -10,12 +10,12 @@ specs
 ## ファイル概要
 
 ```
-├── callback-editor.md              # コールバック、及びエディタ仕様
-├── command-editor.md               # コマンド、及びエディタ仕様
-├── function-editor.md              # 関数、及びエディタ仕様
+├── callback.md                     # コールバックのYAMLデータ仕様
+├── command.md                      # コマンドのYAMLデータ仕様
+├── function.md                     # 関数のYAMLデータ仕様
 ├── README.md                       # このファイル
 ├── ui/                             # UI全般に関する仕様
-├── ui-type-editor.md               # UI型、及びエディタ仕様
-├── variable-editor.md              # 変数、及びエディタ仕様
-└── yaml-data-schema/               # 各シンボルデータにおけるYAMLデータのスキーマ
+├── ui-type.md                      # UI型のYAMLデータ仕様
+├── variable.md                     # 変数のYAMLデータ仕様
+└── yaml-data-schema/               # 各YAMLデータのスキーマ
 ```
