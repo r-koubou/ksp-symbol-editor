@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Variable Editor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- Header -->
+    <header id="header">
+      <div class="header-title">Variable Editor</div>
+      <div class="header-actions">
+        <button id="btn-bulk-import">Bulk Import</button>
+        <button id="btn-load-yaml">Load YAML</button>
+        <input type="file" id="file-input" accept=".yaml,.yml">
+        <button id="btn-export">Export</button>
+        <button id="btn-new-symbol">+New Symbol</button>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main id="main">
+
+      <!-- Left: Symbol list panel -->
+      <aside id="symbol-list-panel">
+        <input type="text" id="search-input" placeholder="Search by name...">
+        <ul id="symbol-list"></ul>
+      </aside>
+
+      <!-- Right: Editor panel -->
+      <section id="editor-panel">
+
+        <div id="editor-placeholder">
+          <p>Load a YAML file or create a new one</p>
+        </div>
+
+        <div id="editor-form">
+          <div class="form-card">
+            <div class="form-group">
+              <label for="field-name">Name</label>
+              <input type="text" id="field-name" placeholder="$variable_name">
+              <span class="field-error-msg" id="name-error">This field is required</span>
+            </div>
+            <div class="form-group">
+              <label for="field-id">Id</label>
+              <input type="text" id="field-id" readonly>
+            </div>
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="field-builtin">
+                BuiltIn
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="field-builtin-version">BuiltIntoVersion</label>
+              <input type="text" id="field-builtin-version" placeholder="N/A">
+              <span class="field-error-msg" id="builtin-version-error">This field is required</span>
+            </div>
+            <div class="form-group">
+              <label for="field-description">Description</label>
+              <textarea id="field-description" rows="6" placeholder="(optional)"></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button id="btn-save" class="btn-primary">Save</button>
+            <button id="btn-delete" class="btn-danger">Delete</button>
+          </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <!-- Bulk Import Modal -->
+  <div id="modal-bulk-import" class="modal">
+    <div class="modal-content">
+      <h2>Bulk Import</h2>
+      <p>Enter variable names, one per line:</p>
+      <textarea id="bulk-import-text" rows="12" placeholder="$variable_a&#10;$variable_b&#10;$variable_c"></textarea>
+      <div class="modal-actions">
+        <button id="btn-bulk-cancel">Cancel</button>
+        <button id="btn-bulk-confirm">Import</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="notification"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
