@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command Editor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- Header -->
+    <header id="header">
+      <div class="header-title">Command Editor</div>
+      <div class="header-actions">
+        <button id="btn-bulk-import">Bulk Import</button>
+        <button id="btn-load-yaml">Load YAML</button>
+        <input type="file" id="file-input" accept=".yaml,.yml">
+        <button id="btn-export">Export</button>
+        <button id="btn-new-symbol">+New Symbol</button>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main id="main">
+
+      <!-- Left: Symbol list panel -->
+      <aside id="symbol-list-panel">
+        <input type="text" id="search-input" placeholder="Search by name...">
+        <ul id="symbol-list"></ul>
+      </aside>
+
+      <!-- Right: Editor panel -->
+      <section id="editor-panel">
+
+        <div id="editor-placeholder">
+          <p>Load a YAML file or create a new one</p>
+        </div>
+
+        <div id="editor-form">
+
+          <!-- form-card 1: Basic fields -->
+          <div class="form-card">
+            <div class="form-group">
+              <label for="field-name">Name</label>
+              <input type="text" id="field-name" placeholder="command_name">
+              <span class="field-error-msg" id="name-error">This field is required</span>
+            </div>
+            <div class="form-group">
+              <label for="field-id">Id</label>
+              <input type="text" id="field-id" readonly>
+            </div>
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="field-builtin">
+                BuiltIn
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="field-builtin-version">BuiltIntoVersion</label>
+              <input type="text" id="field-builtin-version" placeholder="N/A">
+              <span class="field-error-msg" id="builtin-version-error">This field is required</span>
+            </div>
+            <div class="form-group">
+              <label for="field-description">Description</label>
+              <textarea id="field-description" rows="4" placeholder="(optional)"></textarea>
+            </div>
+          </div>
+
+          <!-- form-card 2: Return Type -->
+          <div class="form-card">
+            <div class="form-card-title">Return Type</div>
+            <div class="form-group">
+              <div class="data-type-input-group">
+                <input type="text" id="field-return-type" placeholder="e.g. I, S[], I||R, I[]||S">
+                <span class="field-error-msg" id="return-type-error">This field is required</span>
+                <p class="data-type-hint">Use <code>||</code> to separate multiple types. Add <code>[]</code> after type for arrays.</p>
+              </div>
+              <div class="quick-selection" id="qs-return-type">
+                <div class="quick-selection-label">Quick Selection:</div>
+                <label class="qs-item"><input type="checkbox" value="V"> Void (V)</label>
+                <label class="qs-item"><input type="checkbox" value="I"> Integer (I)</label>
+                <label class="qs-item"><input type="checkbox" value="R"> Real (R)</label>
+                <label class="qs-item"><input type="checkbox" value="S"> String (S)</label>
+                <label class="qs-item"><input type="checkbox" value="B"> Boolean (B)</label>
+                <label class="qs-item"><input type="checkbox" value="P"> Preprocessor (P)</label>
+                <label class="qs-item"><input type="checkbox" value="I[]"> Integer[] (I[])</label>
+                <label class="qs-item"><input type="checkbox" value="R[]"> Real[] (R[])</label>
+                <label class="qs-item"><input type="checkbox" value="S[]"> String[] (S[])</label>
+                <label class="qs-item"><input type="checkbox" value="B[]"> Boolean[] (B[])</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- form-card 3: Arguments -->
+          <div class="form-card">
+            <div class="form-card-title">Arguments</div>
+            <table id="arg-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Data Type</th>
+                  <th>Description</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="arg-tbody"></tbody>
+            </table>
+            <div class="arg-table-empty" id="arg-table-empty">No arguments</div>
+            <button id="btn-add-arg" class="btn-outline">+ Add Argument</button>
+          </div>
+
+          <div class="form-actions">
+            <button id="btn-save" class="btn-primary">Save</button>
+            <button id="btn-delete" class="btn-danger">Delete</button>
+          </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <!-- Bulk Import Modal -->
+  <div id="modal-bulk-import" class="modal">
+    <div class="modal-content">
+      <h2>Bulk Import</h2>
+      <p>Enter command names, one per line:</p>
+      <textarea id="bulk-import-text" rows="12" placeholder="command_a&#10;command_b&#10;command_c"></textarea>
+      <div class="modal-actions">
+        <button id="btn-bulk-cancel">Cancel</button>
+        <button id="btn-bulk-confirm">Import</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Argument Edit Modal -->
+  <div id="modal-arg-edit" class="modal">
+    <div class="modal-content modal-content-arg">
+      <div class="modal-header">
+        <h2>Edit Argument</h2>
+        <button id="btn-arg-close" class="btn-modal-close">&#x2715;</button>
+      </div>
+      <div class="form-group">
+        <label for="arg-field-name">Argument Name</label>
+        <input type="text" id="arg-field-name" placeholder="arg_name">
+        <span class="field-error-msg" id="arg-name-error">This field is required</span>
+      </div>
+      <div class="form-group">
+        <label>Data Type</label>
+        <div class="data-type-input-group">
+          <input type="text" id="arg-field-datatype" placeholder="e.g. I, S[], I||R, I[]||S">
+          <span class="field-error-msg" id="arg-datatype-error">This field is required</span>
+          <p class="data-type-hint">Use <code>||</code> to separate multiple types. Add <code>[]</code> after type for arrays.</p>
+        </div>
+        <div class="quick-selection" id="qs-arg-datatype">
+          <div class="quick-selection-label">Quick Selection:</div>
+          <label class="qs-item"><input type="checkbox" value="V"> Void (V)</label>
+          <label class="qs-item"><input type="checkbox" value="I"> Integer (I)</label>
+          <label class="qs-item"><input type="checkbox" value="R"> Real (R)</label>
+          <label class="qs-item"><input type="checkbox" value="S"> String (S)</label>
+          <label class="qs-item"><input type="checkbox" value="B"> Boolean (B)</label>
+          <label class="qs-item"><input type="checkbox" value="P"> Preprocessor (P)</label>
+          <label class="qs-item"><input type="checkbox" value="I[]"> Integer[] (I[])</label>
+          <label class="qs-item"><input type="checkbox" value="R[]"> Real[] (R[])</label>
+          <label class="qs-item"><input type="checkbox" value="S[]"> String[] (S[])</label>
+          <label class="qs-item"><input type="checkbox" value="B[]"> Boolean[] (B[])</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="arg-field-description">Description</label>
+        <textarea id="arg-field-description" rows="3" placeholder="(optional)"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button id="btn-arg-cancel">Cancel</button>
+        <button id="btn-arg-save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="notification"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

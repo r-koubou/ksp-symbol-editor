@@ -4,7 +4,7 @@
 
 ## YAMLスキーマファイル
 
-yaml-data-schema/variable.yaml を参照。
+yaml-data-schema/variable-schema.yaml を参照。
 
 ## FormatVersion
 

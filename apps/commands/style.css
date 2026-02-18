@@ -1,0 +1,766 @@
+/* ============================================================
+   Reset & Base
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  color: #333;
+  background: #f4f5f7;
+}
+
+/* ============================================================
+   App Layout
+   ============================================================ */
+#app {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ============================================================
+   Header
+   ============================================================ */
+#header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: #1e1e2e;
+  color: #cdd6f4;
+  border-bottom: 2px solid #313244;
+  gap: 12px;
+}
+
+.header-title {
+  font-size: 17px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #cba6f7;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.header-actions button {
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid #585b70;
+  color: #cdd6f4;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.header-actions button:hover {
+  background: rgba(205, 214, 244, 0.1);
+  border-color: #89b4fa;
+}
+
+/* Hide file input */
+#file-input {
+  display: none;
+}
+
+/* ============================================================
+   Main Layout
+   ============================================================ */
+#main {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  overflow: hidden;
+}
+
+/* ============================================================
+   Symbol List Panel (Left)
+   ============================================================ */
+#symbol-list-panel {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-right: 1px solid #e0e2e8;
+  overflow: hidden;
+}
+
+#search-input {
+  margin: 12px;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+  flex-shrink: 0;
+  color: #333;
+}
+
+#search-input:focus {
+  border-color: #89b4fa;
+  box-shadow: 0 0 0 2px rgba(137, 180, 250, 0.25);
+}
+
+#symbol-list {
+  flex: 1;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0 10px 10px;
+}
+
+#symbol-list li {
+  padding: 10px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+  background: #fff;
+  color: #374151;
+  transition: background 0.1s, border-color 0.1s;
+  word-break: break-all;
+}
+
+#symbol-list li:hover {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+#symbol-list li.active {
+  background: #dbeafe;
+  border-color: #93c5fd;
+  font-weight: 500;
+  color: #1d4ed8;
+}
+
+/* ============================================================
+   Editor Panel (Right)
+   ============================================================ */
+#editor-panel {
+  overflow-y: auto;
+  padding: 28px 32px;
+  background: #f9fafb;
+}
+
+/* Placeholder */
+#editor-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #9ca3af;
+  font-size: 15px;
+  text-align: center;
+}
+
+/* Editor form (hidden by default via JS) */
+#editor-form {
+  display: none;
+  max-width: 600px;
+}
+
+/* Form card (bordered container around fields) */
+.form-card {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+/* Form card title (for named sections like Return Type, Arguments) */
+.form-card-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #4b5563;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* ============================================================
+   Form
+   ============================================================ */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group > label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #111827;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+  border-color: #89b4fa;
+  box-shadow: 0 0 0 2px rgba(137, 180, 250, 0.25);
+}
+
+.form-group input[readonly] {
+  background: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+  font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Checkbox label */
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #374151;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #4f86e8;
+}
+
+/* Form actions */
+.form-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Primary button (Save) */
+.btn-primary {
+  padding: 7px 18px;
+  background: #4f86e8;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-primary:hover {
+  background: #3b72d4;
+}
+
+/* Danger button */
+.btn-danger {
+  padding: 7px 18px;
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+/* Outline button (Add Argument) */
+.btn-outline {
+  padding: 6px 14px;
+  background: transparent;
+  color: #4f86e8;
+  border: 1px solid #4f86e8;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-outline:hover {
+  background: #eff6ff;
+}
+
+/* Small button (Edit/Delete in table) */
+.btn-sm {
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-sm-edit {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.btn-sm-edit:hover {
+  background: #e5e7eb;
+}
+
+.btn-sm-delete {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+}
+
+.btn-sm-delete:hover {
+  background: #fee2e2;
+}
+
+/* Validation error state */
+.input-error {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2) !important;
+}
+
+/* Field-level error message */
+.field-error-msg {
+  display: none;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #ef4444;
+}
+
+.field-error-msg.visible {
+  display: block;
+}
+
+/* ============================================================
+   Data Type Component
+   ============================================================ */
+.data-type-input-group {
+  margin-bottom: 12px;
+}
+
+.data-type-hint {
+  margin-top: 5px;
+  font-size: 11px;
+  color: #9ca3af;
+  line-height: 1.4;
+}
+
+.data-type-hint code {
+  background: #f3f4f6;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+  font-size: 11px;
+  color: #374151;
+}
+
+.quick-selection {
+  background: #f8f9fa;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+
+.quick-selection-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.qs-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+  padding: 3px 0;
+}
+
+.qs-item input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  accent-color: #4f86e8;
+}
+
+/* ============================================================
+   Arguments Table
+   ============================================================ */
+#arg-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+#arg-table thead th {
+  text-align: left;
+  padding: 8px 10px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6b7280;
+}
+
+#arg-table tbody td {
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  vertical-align: top;
+  color: #374151;
+}
+
+#arg-table tbody tr:hover td {
+  background: #f9fafb;
+}
+
+.arg-td-name {
+  font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.arg-td-datatype {
+  font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.arg-td-desc {
+  color: #6b7280;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.arg-td-action {
+  white-space: nowrap;
+}
+
+.arg-td-action button + button {
+  margin-left: 5px;
+}
+
+.arg-table-empty {
+  display: none;
+  padding: 12px 0;
+  font-size: 13px;
+  color: #9ca3af;
+  text-align: center;
+}
+
+.arg-table-empty.visible {
+  display: block;
+}
+
+/* ============================================================
+   Notification Toast
+   ============================================================ */
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(calc(100% + 24px));
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutToRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(calc(100% + 24px));
+    opacity: 0;
+  }
+}
+
+#notification {
+  display: none;
+  position: fixed;
+  top: 72px;
+  right: 20px;
+  z-index: 300;
+  background: #fff;
+  border-left: 4px solid #22c55e;
+  border-radius: 4px;
+  padding: 12px 18px;
+  font-size: 13px;
+  color: #111827;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+#notification.show {
+  display: block;
+  animation: slideInFromRight 0.3s ease forwards;
+}
+
+#notification.hide {
+  display: block;
+  animation: slideOutToRight 0.3s ease forwards;
+}
+
+/* ============================================================
+   Modal
+   ============================================================ */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.modal.open {
+  display: flex;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 10px;
+  padding: 28px;
+  width: 500px;
+  max-width: 92vw;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.modal-content p {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 14px;
+}
+
+.modal-content textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+  line-height: 1.5;
+  resize: vertical;
+  outline: none;
+  margin-bottom: 18px;
+  color: #111827;
+}
+
+.modal-content textarea:focus {
+  border-color: #89b4fa;
+  box-shadow: 0 0 0 2px rgba(137, 180, 250, 0.25);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-actions button {
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+#btn-bulk-cancel {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+#btn-bulk-cancel:hover {
+  background: #f9fafb;
+}
+
+#btn-bulk-confirm {
+  background: #4f86e8;
+  border: none;
+  color: #fff;
+}
+
+#btn-bulk-confirm:hover {
+  background: #3b72d4;
+}
+
+/* Argument Edit Modal specific */
+.modal-content-arg {
+  width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-content-arg .form-group {
+  margin-bottom: 18px;
+}
+
+.modal-content-arg .form-group > label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.modal-content-arg .form-group input[type="text"],
+.modal-content-arg .form-group textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #111827;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.modal-content-arg .form-group input[type="text"]:focus,
+.modal-content-arg .form-group textarea:focus {
+  border-color: #89b4fa;
+  box-shadow: 0 0 0 2px rgba(137, 180, 250, 0.25);
+}
+
+.modal-content-arg .form-group textarea {
+  resize: vertical;
+  font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  margin-bottom: 0;
+}
+
+.btn-modal-close {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  line-height: 1;
+  transition: color 0.15s, background 0.15s;
+}
+
+.btn-modal-close:hover {
+  color: #374151;
+  background: #f3f4f6;
+}
+
+#btn-arg-cancel {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  color: #374151;
+}
+
+#btn-arg-cancel:hover {
+  background: #f9fafb;
+}
+
+#btn-arg-save {
+  background: #4f86e8;
+  border: none;
+  color: #fff;
+}
+
+#btn-arg-save:hover {
+  background: #3b72d4;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 640px) {
+  #main {
+    grid-template-columns: 1fr;
+    grid-template-rows: 220px 1fr;
+  }
+
+  #symbol-list-panel {
+    border-right: none;
+    border-bottom: 1px solid #e0e2e8;
+  }
+
+  #editor-panel {
+    padding: 20px 16px;
+  }
+
+  .modal-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  #header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
