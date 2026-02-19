@@ -6,7 +6,7 @@
 
 - エディタ(HTML/CSS/JS)の作成
 
-成果物を `apps/ui-type/` ディレクトリに配置すること。
+成果物を `apps/ui-types/` ディレクトリに配置すること。
 
 ## HTML/CSS/JSの要件
 
