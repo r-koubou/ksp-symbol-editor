@@ -96,3 +96,7 @@ Description: |-
 ├── ui-type-editor.md                   # UIデータ型のエディタUI仕様
 └── variable-editor.md                  # 変数シンボルのエディタUI仕様
 ```
+
+## ファビコン
+
+`${PROJECT_ROOT}/apps/favicon.png` をファビコンとして使用すること。

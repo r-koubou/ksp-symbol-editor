@@ -33,6 +33,11 @@ VariableType プルダウン（10種）・RequireInitializer チェックボッ�
 エディタカード4種・フッター GitHub リンク（`github-icon.png` 使用）を実装。
 詳細は `docs/tasks/logs/2026-02-19.md` を参照。
 
+### ファビコン指定（2026-02-20）
+
+全HTMLファイル（`apps/index.html` および各エディタの `index.html`）に `<link rel="icon" type="image/png">` を追加。
+詳細は `docs/tasks/logs/2026-02-20.md` を参照。
+
 ## 未着手
 
 なし
