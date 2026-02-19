@@ -21,6 +21,12 @@ AllowMultipleDeclaration・引数 RequiredDeclare の編集、引数編集モー
 FormatVersion 出力をクォートなし（`1.0.0`）に統一（commands・variables も同時修正、variable-schema.yaml の仕様ミスも訂正）。
 詳細は `docs/tasks/logs/2026-02-19.md` を参照。
 
+### UIタイプシンボルエディタ（2026-02-19）
+
+`apps/ui-type/` にUIタイプシンボルエディタを作成・完成。
+VariableType プルダウン（10種）・RequireInitializer チェックボックス・InitializerArguments（引数モーダル）を実装。
+詳細は `docs/tasks/logs/2026-02-19.md` を参照。
+
 ## 未着手
 
-- UIタイプシンボルエディタ (`apps/ui-types/`)
+なし
