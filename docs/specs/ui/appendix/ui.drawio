@@ -1,4 +1,4 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.6 Chrome/140.0.7339.249 Electron/38.8.0 Safari/537.36" version="29.3.6" pages="10">
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.6 Chrome/140.0.7339.249 Electron/38.8.0 Safari/537.36" version="29.3.6" pages="11">
   <diagram name="Container" id="23mCNinTWW1XRZl_nnWg">
     <mxGraphModel dx="1018" dy="748" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -232,6 +232,41 @@
         </mxCell>
         <mxCell id="HsaXeQQDveoOIBipHY0D-7" parent="HsaXeQQDveoOIBipHY0D-1" style="rounded=1;whiteSpace=wrap;html=1;" value="Delete" vertex="1">
           <mxGeometry height="30" width="80" x="370" y="910" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="UI Type Editor" id="5rCGR15GCa6JBPpVM8z3">
+    <mxGraphModel dx="1018" dy="1575" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="F923VjMHtDwgz6jCtcmK-0" />
+        <mxCell id="F923VjMHtDwgz6jCtcmK-1" parent="F923VjMHtDwgz6jCtcmK-0" />
+        <mxCell id="F923VjMHtDwgz6jCtcmK-2" parent="F923VjMHtDwgz6jCtcmK-1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="350" width="450" x="250" y="-800" as="geometry" />
+        </mxCell>
+        <mxCell id="F923VjMHtDwgz6jCtcmK-3" parent="F923VjMHtDwgz6jCtcmK-1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;初期化引数以外のYAMLスキーマで定義されているデータ編集&lt;/font&gt;" vertex="1">
+          <mxGeometry height="100" width="220" x="270" y="-780" as="geometry" />
+        </mxCell>
+        <mxCell id="F923VjMHtDwgz6jCtcmK-4" parent="F923VjMHtDwgz6jCtcmK-1" style="rounded=0;whiteSpace=wrap;html=1;" value="Initializer Argument List" vertex="1">
+          <mxGeometry height="103" width="220" x="270" y="-630" as="geometry" />
+        </mxCell>
+        <mxCell id="F923VjMHtDwgz6jCtcmK-5" parent="F923VjMHtDwgz6jCtcmK-1" style="rounded=1;whiteSpace=wrap;html=1;" value="Save" vertex="1">
+          <mxGeometry height="30" width="80" x="270" y="-510" as="geometry" />
+        </mxCell>
+        <mxCell id="F923VjMHtDwgz6jCtcmK-6" parent="F923VjMHtDwgz6jCtcmK-1" style="rounded=1;whiteSpace=wrap;html=1;" value="Delete" vertex="1">
+          <mxGeometry height="30" width="80" x="370" y="-510" as="geometry" />
+        </mxCell>
+        <mxCell id="xHitNm-hm2tMikDs7Vk8-0" parent="F923VjMHtDwgz6jCtcmK-1" style="strokeWidth=1;shadow=0;dashed=0;align=center;shape=mxgraph.mockup.forms.rrect;rSize=0;fillColor=#eeeeee;strokeColor=#999999;gradientColor=#cccccc;align=left;spacingLeft=4;fontSize=13;fontColor=#666666;labelPosition=right;" value="Require Initializer" vertex="1">
+          <mxGeometry height="15" width="15" x="270" y="-650" as="geometry" />
+        </mxCell>
+        <mxCell id="xHitNm-hm2tMikDs7Vk8-1" edge="1" parent="F923VjMHtDwgz6jCtcmK-1" source="xHitNm-hm2tMikDs7Vk8-2" style="endArrow=classic;html=1;rounded=0;entryX=0.091;entryY=0.6;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" target="F923VjMHtDwgz6jCtcmK-3" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="200" y="-710" as="sourcePoint" />
+            <mxPoint x="220" y="-720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xHitNm-hm2tMikDs7Vk8-2" parent="F923VjMHtDwgz6jCtcmK-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=top;rounded=0;" value="データ型(VaiableType)の選択は&lt;div&gt;プルダウンから１つだけ選択できるように&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="230" x="10" y="-700" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
