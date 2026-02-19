@@ -1,4 +1,4 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.6 Chrome/140.0.7339.249 Electron/38.8.0 Safari/537.36" version="29.3.6" pages="8">
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.6 Chrome/140.0.7339.249 Electron/38.8.0 Safari/537.36" version="29.3.6" pages="10">
   <diagram name="Container" id="23mCNinTWW1XRZl_nnWg">
     <mxGraphModel dx="1018" dy="748" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -209,6 +209,29 @@
         </mxCell>
         <mxCell id="o5tg0v2uS4uUEp6XDoGB-5" parent="-xnTwiZu9eY37te72lTc-1" style="rounded=1;whiteSpace=wrap;html=1;" value="Delete" vertex="1">
           <mxGeometry height="30" width="80" x="370" y="1070" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Callback Editor" id="BSpHj6iN9bzHy3LQc7NV">
+    <mxGraphModel dx="1018" dy="748" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="HsaXeQQDveoOIBipHY0D-0" />
+        <mxCell id="HsaXeQQDveoOIBipHY0D-1" parent="HsaXeQQDveoOIBipHY0D-0" />
+        <mxCell id="HsaXeQQDveoOIBipHY0D-2" parent="HsaXeQQDveoOIBipHY0D-1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="350" width="450" x="250" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="HsaXeQQDveoOIBipHY0D-3" parent="HsaXeQQDveoOIBipHY0D-1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;引数以外のYAMLスキーマで定義されているデータ編集&lt;/font&gt;" vertex="1">
+          <mxGeometry height="100" width="220" x="270" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="HsaXeQQDveoOIBipHY0D-5" parent="HsaXeQQDveoOIBipHY0D-1" style="rounded=0;whiteSpace=wrap;html=1;" value="Argument List" vertex="1">
+          <mxGeometry height="133" width="220" x="270" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="HsaXeQQDveoOIBipHY0D-6" parent="HsaXeQQDveoOIBipHY0D-1" style="rounded=1;whiteSpace=wrap;html=1;" value="Save" vertex="1">
+          <mxGeometry height="30" width="80" x="270" y="910" as="geometry" />
+        </mxCell>
+        <mxCell id="HsaXeQQDveoOIBipHY0D-7" parent="HsaXeQQDveoOIBipHY0D-1" style="rounded=1;whiteSpace=wrap;html=1;" value="Delete" vertex="1">
+          <mxGeometry height="30" width="80" x="370" y="910" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
@@ -447,6 +470,44 @@
         </mxCell>
         <mxCell id="WdZhk7pl-_HCa_T0rRVV-28" parent="taA_BVjyKdHb0eJod6sM-1" style="rounded=1;whiteSpace=wrap;html=1;" value="Cancel" vertex="1">
           <mxGeometry height="30" width="80" x="580" y="670" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Callback Argument Edit" id="18qiGLRgjgcCAcOBUKKw">
+    <mxGraphModel dx="1018" dy="748" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0oEb6Zn3M0xe0ELydV9T-0" />
+        <mxCell id="0oEb6Zn3M0xe0ELydV9T-1" parent="0oEb6Zn3M0xe0ELydV9T-0" />
+        <mxCell id="0oEb6Zn3M0xe0ELydV9T-2" parent="0oEb6Zn3M0xe0ELydV9T-1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="350" width="450" x="30" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="0oEb6Zn3M0xe0ELydV9T-21" parent="0oEb6Zn3M0xe0ELydV9T-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;fontStyle=1;fontSize=18;" value="Edit Argument" vertex="1">
+          <mxGeometry height="30" width="180" x="50" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="0oEb6Zn3M0xe0ELydV9T-22" connectable="0" parent="0oEb6Zn3M0xe0ELydV9T-1" style="group" value="" vertex="1">
+          <mxGeometry height="20" width="20" x="450" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="0oEb6Zn3M0xe0ELydV9T-23" edge="1" parent="0oEb6Zn3M0xe0ELydV9T-22" style="endArrow=none;html=1;rounded=0;strokeWidth=2;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint y="20" as="sourcePoint" />
+            <mxPoint x="20" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0oEb6Zn3M0xe0ELydV9T-24" edge="1" parent="0oEb6Zn3M0xe0ELydV9T-22" style="endArrow=none;html=1;rounded=0;strokeWidth=2;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint as="sourcePoint" />
+            <mxPoint x="20" y="20" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0oEb6Zn3M0xe0ELydV9T-28" parent="0oEb6Zn3M0xe0ELydV9T-1" style="rounded=1;whiteSpace=wrap;html=1;" value="Save" vertex="1">
+          <mxGeometry height="30" width="80" x="370" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="0oEb6Zn3M0xe0ELydV9T-29" parent="0oEb6Zn3M0xe0ELydV9T-1" style="rounded=1;whiteSpace=wrap;html=1;" value="Cancel" vertex="1">
+          <mxGeometry height="30" width="80" x="280" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="O5OBHjt7QpSYEjiVcvoq-1" parent="0oEb6Zn3M0xe0ELydV9T-1" style="text;html=1;whiteSpace=wrap;strokeColor=default;fillColor=none;align=left;verticalAlign=top;rounded=0;" value="- Name&lt;div&gt;- RequiredDeclare&lt;/div&gt;&lt;div&gt;- Description&lt;/div&gt;" vertex="1">
+          <mxGeometry height="170" width="400" x="50" y="110" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
