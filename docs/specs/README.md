@@ -12,7 +12,6 @@ specs
 ```
 ├── callback.md                     # コールバックのYAMLデータ仕様
 ├── command.md                      # コマンドのYAMLデータ仕様
-├── function.md                     # 関数のYAMLデータ仕様
 ├── README.md                       # このファイル
 ├── ui/                             # UI全般に関する仕様
 ├── ui-type.md                      # UI型のYAMLデータ仕様

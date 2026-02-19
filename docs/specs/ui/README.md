@@ -92,7 +92,6 @@ Description: |-
 ├── callback-editor.md                  # コールバックシンボルのエディタUI仕様
 ├── command-editor.md                   # コマンドシンボルのエディタUI仕様
 ├── data-type-edit.md                   # データ型のエディタUI仕様
-├── function-editor.md                  # 関数シンボルのエディタUI仕様
 ├── README.md                           # このファイル
 ├── ui-type-editor.md                   # UIデータ型のエディタUI仕様
 └── variable-editor.md                  # 変数シンボルのエディタUI仕様

@@ -23,5 +23,4 @@ FormatVersion 出力をクォートなし（`1.0.0`）に統一（commands・var
 
 ## 未着手
 
-- 関数シンボルエディタ (`apps/functions/`)
 - UIタイプシンボルエディタ (`apps/ui-types/`)
