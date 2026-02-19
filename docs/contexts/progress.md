@@ -23,8 +23,14 @@ FormatVersion 出力をクォートなし（`1.0.0`）に統一（commands・var
 
 ### UIタイプシンボルエディタ（2026-02-19）
 
-`apps/ui-type/` にUIタイプシンボルエディタを作成・完成。
+`apps/ui-types/` にUIタイプシンボルエディタを作成・完成。
 VariableType プルダウン（10種）・RequireInitializer チェックボックス・InitializerArguments（引数モーダル）を実装。
+詳細は `docs/tasks/logs/2026-02-19.md` を参照。
+
+### トップページ（2026-02-19）
+
+`apps/index.html` に各エディタへのナビゲーション用トップページを作成・完成。
+エディタカード4種・フッター GitHub リンク（`github-icon.png` 使用）を実装。
 詳細は `docs/tasks/logs/2026-02-19.md` を参照。
 
 ## 未着手
