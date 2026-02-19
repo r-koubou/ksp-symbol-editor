@@ -3,7 +3,7 @@
 // ============================================================
 // State
 // ============================================================
-let commands = [];
+let callbacks = [];
 let selectedId = null;
 let searchQuery = '';
 let editingArgIndex = null; // null = new, number = editing index
@@ -11,25 +11,25 @@ let editingArgIndex = null; // null = new, number = editing index
 // ============================================================
 // DOM References
 // ============================================================
-const symbolListEl        = document.getElementById('symbol-list');
-const editorPlaceholder   = document.getElementById('editor-placeholder');
-const editorForm          = document.getElementById('editor-form');
-const fieldName           = document.getElementById('field-name');
-const fieldId             = document.getElementById('field-id');
-const fieldBuiltIn        = document.getElementById('field-builtin');
-const fieldBuiltInVersion = document.getElementById('field-builtin-version');
-const fieldDescription    = document.getElementById('field-description');
-const fieldReturnType     = document.getElementById('field-return-type');
-const argTbody            = document.getElementById('arg-tbody');
-const argTableEmpty       = document.getElementById('arg-table-empty');
-const searchInput         = document.getElementById('search-input');
-const fileInput           = document.getElementById('file-input');
-const modalBulkImport     = document.getElementById('modal-bulk-import');
-const bulkImportText      = document.getElementById('bulk-import-text');
-const modalArgEdit        = document.getElementById('modal-arg-edit');
-const argFieldName        = document.getElementById('arg-field-name');
-const argFieldDatatype    = document.getElementById('arg-field-datatype');
-const argFieldDescription = document.getElementById('arg-field-description');
+const symbolListEl                  = document.getElementById('symbol-list');
+const editorPlaceholder             = document.getElementById('editor-placeholder');
+const editorForm                    = document.getElementById('editor-form');
+const fieldName                     = document.getElementById('field-name');
+const fieldId                       = document.getElementById('field-id');
+const fieldBuiltIn                  = document.getElementById('field-builtin');
+const fieldAllowMultipleDeclaration = document.getElementById('field-allow-multiple-declaration');
+const fieldBuiltInVersion           = document.getElementById('field-builtin-version');
+const fieldDescription              = document.getElementById('field-description');
+const argTbody                      = document.getElementById('arg-tbody');
+const argTableEmpty                 = document.getElementById('arg-table-empty');
+const searchInput                   = document.getElementById('search-input');
+const fileInput                     = document.getElementById('file-input');
+const modalBulkImport               = document.getElementById('modal-bulk-import');
+const bulkImportText                = document.getElementById('bulk-import-text');
+const modalArgEdit                  = document.getElementById('modal-arg-edit');
+const argFieldName                  = document.getElementById('arg-field-name');
+const argFieldRequiredDeclare       = document.getElementById('arg-field-required-declare');
+const argFieldDescription           = document.getElementById('arg-field-description');
 
 // ============================================================
 // YAML Parsing
@@ -50,7 +50,7 @@ function parseScalar(val) {
 }
 
 /**
- * Parse a YAML document following the command catalog schema.
+ * Parse a YAML document following the callback catalog schema.
  * Returns { FormatVersion, Data }.
  */
 function parseYaml(text) {
@@ -259,18 +259,18 @@ function serializeDescription(desc, indent) {
   return out;
 }
 
-/** Serialize the current commands array to a YAML string. */
+/** Serialize the current callbacks array to a YAML string. */
 function serializeYaml() {
   let yaml = `FormatVersion: 1.0.0\n`;
   yaml += `Data:\n`;
 
-  for (const c of commands) {
+  for (const c of callbacks) {
     yaml += `  - Id: ${serializeStr(c.Id)}\n`;
     yaml += `    Name: ${serializeStr(c.Name)}\n`;
     yaml += `    BuiltIn: ${c.BuiltIn ? 'true' : 'false'}\n`;
+    yaml += `    AllowMultipleDeclaration: ${c.AllowMultipleDeclaration ? 'true' : 'false'}\n`;
     yaml += serializeDescription(c.Description, '    ');
     yaml += `    BuiltIntoVersion: ${serializeStr(c.BuiltIntoVersion)}\n`;
-    yaml += `    ReturnType: ${serializeStr(c.ReturnType)}\n`;
 
     const args = c.Arguments || [];
     if (args.length === 0) {
@@ -279,7 +279,7 @@ function serializeYaml() {
       yaml += `    Arguments:\n`;
       for (const arg of args) {
         yaml += `      - Name: ${serializeStr(arg.Name)}\n`;
-        yaml += `        DataType: ${serializeStr(arg.DataType)}\n`;
+        yaml += `        RequiredDeclare: ${arg.RequiredDeclare ? 'true' : 'false'}\n`;
         yaml += serializeDescription(arg.Description, '        ');
       }
     }
@@ -289,71 +289,13 @@ function serializeYaml() {
 }
 
 // ============================================================
-// Data Type Component
-// ============================================================
-
-const DATA_TYPES = ['V', 'I', 'R', 'S', 'B', 'P', 'I[]', 'R[]', 'S[]', 'B[]'];
-
-/**
- * Parse a data type string like "I||S[]" into an array of types.
- */
-function parseDataTypes(text) {
-  if (!text || text.trim() === '') return [];
-  return text.split('||').map(t => t.trim()).filter(t => t !== '');
-}
-
-/**
- * Sync Quick Selection checkboxes from a text input value.
- */
-function syncCheckboxes(qsContainerId, text) {
-  const selected = new Set(parseDataTypes(text));
-  const container = document.getElementById(qsContainerId);
-  container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-    cb.checked = selected.has(cb.value);
-  });
-}
-
-/**
- * Build data type string from checked checkboxes in a Quick Selection container.
- * Preserve the canonical order from DATA_TYPES.
- */
-function buildTextFromCheckboxes(qsContainerId) {
-  const container = document.getElementById(qsContainerId);
-  const checked = [];
-  container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-    if (cb.checked) checked.push(cb.value);
-  });
-  return checked.join('||');
-}
-
-/**
- * Set up bidirectional sync between a text input and a Quick Selection container.
- */
-function setupDataTypeComponent(inputId, qsContainerId) {
-  const input = document.getElementById(inputId);
-  const container = document.getElementById(qsContainerId);
-
-  // Text → checkboxes
-  input.addEventListener('input', () => {
-    syncCheckboxes(qsContainerId, input.value);
-  });
-
-  // Checkboxes → text
-  container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-    cb.addEventListener('change', () => {
-      input.value = buildTextFromCheckboxes(qsContainerId);
-    });
-  });
-}
-
-// ============================================================
 // Rendering
 // ============================================================
 
 /** Re-render the symbol list, applying the current search filter. */
 function renderSymbolList() {
   const q = searchQuery.toLowerCase();
-  const filtered = commands.filter(c => c.Name.toLowerCase().includes(q));
+  const filtered = callbacks.filter(c => c.Name.toLowerCase().includes(q));
 
   symbolListEl.innerHTML = '';
 
@@ -367,7 +309,7 @@ function renderSymbolList() {
   }
 }
 
-/** Render the Arguments table for the currently selected command. */
+/** Render the Arguments table for the currently selected callback. */
 function renderArgTable(args) {
   argTbody.innerHTML = '';
 
@@ -385,9 +327,9 @@ function renderArgTable(args) {
     tdName.className = 'arg-td-name';
     tdName.textContent = arg.Name || '';
 
-    const tdType = document.createElement('td');
-    tdType.className = 'arg-td-datatype';
-    tdType.textContent = arg.DataType || '';
+    const tdRequired = document.createElement('td');
+    tdRequired.className = 'arg-td-required';
+    tdRequired.textContent = arg.RequiredDeclare ? 'true' : 'false';
 
     const tdDesc = document.createElement('td');
     tdDesc.className = 'arg-td-desc';
@@ -411,16 +353,16 @@ function renderArgTable(args) {
     tdAction.appendChild(btnDel);
 
     tr.appendChild(tdName);
-    tr.appendChild(tdType);
+    tr.appendChild(tdRequired);
     tr.appendChild(tdDesc);
     tr.appendChild(tdAction);
     argTbody.appendChild(tr);
   });
 }
 
-/** Select a command and populate the editor form. */
+/** Select a callback and populate the editor form. */
 function selectSymbol(id) {
-  const c = commands.find(c => c.Id === id);
+  const c = callbacks.find(c => c.Id === id);
   if (!c) return;
 
   selectedId = id;
@@ -434,13 +376,12 @@ function selectSymbol(id) {
   clearValidationErrors();
 
   // Populate form fields
-  fieldName.value           = c.Name;
-  fieldId.value             = c.Id;
-  fieldBuiltIn.checked      = !!c.BuiltIn;
-  fieldBuiltInVersion.value = c.BuiltIntoVersion || '';
-  fieldDescription.value    = c.Description || '';
-  fieldReturnType.value     = c.ReturnType || '';
-  syncCheckboxes('qs-return-type', c.ReturnType || '');
+  fieldName.value                     = c.Name;
+  fieldId.value                       = c.Id;
+  fieldBuiltIn.checked                = !!c.BuiltIn;
+  fieldAllowMultipleDeclaration.checked = !!c.AllowMultipleDeclaration;
+  fieldBuiltInVersion.value           = c.BuiltIntoVersion || '';
+  fieldDescription.value              = c.Description || '';
 
   renderArgTable(c.Arguments);
 
@@ -502,7 +443,6 @@ function setFieldError(inputEl, errorId, hasError) {
 function clearValidationErrors() {
   setFieldError(fieldName, 'name-error', false);
   setFieldError(fieldBuiltInVersion, 'builtin-version-error', false);
-  setFieldError(fieldReturnType, 'return-type-error', false);
 }
 
 function validateForm() {
@@ -522,13 +462,6 @@ function validateForm() {
     setFieldError(fieldBuiltInVersion, 'builtin-version-error', false);
   }
 
-  if (fieldReturnType.value.trim() === '') {
-    setFieldError(fieldReturnType, 'return-type-error', true);
-    valid = false;
-  } else {
-    setFieldError(fieldReturnType, 'return-type-error', false);
-  }
-
   return valid;
 }
 
@@ -538,25 +471,25 @@ function validateForm() {
 
 function saveFormToState() {
   if (!selectedId) return;
-  const c = commands.find(c => c.Id === selectedId);
+  const c = callbacks.find(c => c.Id === selectedId);
   if (!c) return;
-  c.Name             = fieldName.value;
-  c.BuiltIn          = fieldBuiltIn.checked;
-  c.BuiltIntoVersion = fieldBuiltInVersion.value;
-  c.Description      = fieldDescription.value;
-  c.ReturnType       = fieldReturnType.value;
+  c.Name                     = fieldName.value;
+  c.BuiltIn                  = fieldBuiltIn.checked;
+  c.AllowMultipleDeclaration = fieldAllowMultipleDeclaration.checked;
+  c.BuiltIntoVersion         = fieldBuiltInVersion.value;
+  c.Description              = fieldDescription.value;
   // Arguments are mutated in-place via openArgModal/deleteArg
 }
 
-function createCommand(name = '') {
+function createCallback(name = '') {
   return {
-    Id:               crypto.randomUUID(),
-    Name:             name,
-    BuiltIn:          true,
-    Description:      '',
-    BuiltIntoVersion: 'N/A',
-    ReturnType:       'V',
-    Arguments:        [],
+    Id:                       crypto.randomUUID(),
+    Name:                     name,
+    BuiltIn:                  true,
+    AllowMultipleDeclaration: false,
+    Description:              '',
+    BuiltIntoVersion:         'N/A',
+    Arguments:                [],
   };
 }
 
@@ -564,8 +497,8 @@ function createCommand(name = '') {
 // Argument CRUD
 // ============================================================
 
-function getCurrentCommand() {
-  return commands.find(c => c.Id === selectedId) || null;
+function getCurrentCallback() {
+  return callbacks.find(c => c.Id === selectedId) || null;
 }
 
 function openArgModal(idx) {
@@ -574,22 +507,20 @@ function openArgModal(idx) {
 
   // Clear validation in modal
   setFieldError(argFieldName, 'arg-name-error', false);
-  setFieldError(argFieldDatatype, 'arg-datatype-error', false);
 
   if (idx === null) {
-    argFieldName.value        = '';
-    argFieldDatatype.value    = '';
-    argFieldDescription.value = '';
+    argFieldName.value              = '';
+    argFieldRequiredDeclare.checked = true;
+    argFieldDescription.value       = '';
   } else {
-    const c = getCurrentCommand();
+    const c = getCurrentCallback();
     if (!c) return;
     const arg = c.Arguments[idx];
-    argFieldName.value        = arg.Name || '';
-    argFieldDatatype.value    = arg.DataType || '';
-    argFieldDescription.value = arg.Description || '';
+    argFieldName.value              = arg.Name || '';
+    argFieldRequiredDeclare.checked = arg.RequiredDeclare !== false;
+    argFieldDescription.value       = arg.Description || '';
   }
 
-  syncCheckboxes('qs-arg-datatype', argFieldDatatype.value);
   modalArgEdit.classList.add('open');
   argFieldName.focus();
 }
@@ -600,31 +531,19 @@ function closeArgModal() {
 }
 
 function saveArg() {
-  let valid = true;
-
   if (argFieldName.value.trim() === '') {
     setFieldError(argFieldName, 'arg-name-error', true);
-    valid = false;
-  } else {
-    setFieldError(argFieldName, 'arg-name-error', false);
+    return;
   }
+  setFieldError(argFieldName, 'arg-name-error', false);
 
-  if (argFieldDatatype.value.trim() === '') {
-    setFieldError(argFieldDatatype, 'arg-datatype-error', true);
-    valid = false;
-  } else {
-    setFieldError(argFieldDatatype, 'arg-datatype-error', false);
-  }
-
-  if (!valid) return;
-
-  const c = getCurrentCommand();
+  const c = getCurrentCallback();
   if (!c) return;
 
   const arg = {
-    Name:        argFieldName.value.trim(),
-    DataType:    argFieldDatatype.value.trim(),
-    Description: argFieldDescription.value,
+    Name:            argFieldName.value.trim(),
+    RequiredDeclare: argFieldRequiredDeclare.checked,
+    Description:     argFieldDescription.value,
   };
 
   if (editingArgIndex === null) {
@@ -639,7 +558,7 @@ function saveArg() {
 }
 
 function deleteArg(idx) {
-  const c = getCurrentCommand();
+  const c = getCurrentCallback();
   if (!c) return;
   c.Arguments.splice(idx, 1);
   renderArgTable(c.Arguments);
@@ -658,22 +577,22 @@ function handleFileLoad(e) {
   reader.onload = (evt) => {
     try {
       const parsed = parseYaml(evt.target.result);
-      commands = (parsed.Data || []).map(item => ({
-        Id:               item.Id               || crypto.randomUUID(),
-        Name:             item.Name             || '',
-        BuiltIn:          item.BuiltIn !== false,
-        Description:      item.Description      || '',
-        BuiltIntoVersion: item.BuiltIntoVersion || 'N/A',
-        ReturnType:       item.ReturnType       || '',
-        Arguments:        (item.Arguments || []).map(a => ({
-          Name:        a.Name        || '',
-          DataType:    a.DataType    || '',
-          Description: a.Description || '',
+      callbacks = (parsed.Data || []).map(item => ({
+        Id:                       item.Id                       || crypto.randomUUID(),
+        Name:                     item.Name                     || '',
+        BuiltIn:                  item.BuiltIn !== false,
+        AllowMultipleDeclaration: item.AllowMultipleDeclaration === true,
+        Description:              item.Description              || '',
+        BuiltIntoVersion:         item.BuiltIntoVersion         || 'N/A',
+        Arguments: (item.Arguments || []).map(a => ({
+          Name:            a.Name            || '',
+          RequiredDeclare: a.RequiredDeclare !== false,
+          Description:     a.Description     || '',
         })),
       }));
       showPlaceholder();
       renderSymbolList();
-      showNotification(`Loaded ${commands.length} symbol(s)`);
+      showNotification(`Loaded ${callbacks.length} symbol(s)`);
     } catch (err) {
       alert('Failed to parse YAML:\n' + err.message);
     }
@@ -688,15 +607,15 @@ function handleExport() {
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
   a.href     = url;
-  a.download = 'commands.yaml';
+  a.download = 'callbacks.yaml';
   a.click();
   URL.revokeObjectURL(url);
   showNotification('Exported');
 }
 
 function handleNewSymbol() {
-  const c = createCommand();
-  commands.push(c);
+  const c = createCallback();
+  callbacks.push(c);
   renderSymbolList();
   selectSymbol(c.Id);
   fieldName.focus();
@@ -712,9 +631,9 @@ function handleSave() {
 
 function handleDelete() {
   if (!selectedId) return;
-  const idx = commands.findIndex(c => c.Id === selectedId);
+  const idx = callbacks.findIndex(c => c.Id === selectedId);
   if (idx === -1) return;
-  commands.splice(idx, 1);
+  callbacks.splice(idx, 1);
   showPlaceholder();
   renderSymbolList();
   showNotification('Deleted');
@@ -737,7 +656,7 @@ function handleBulkImportConfirm() {
     .filter(l => l !== '');
 
   for (const name of names) {
-    commands.push(createCommand(name));
+    callbacks.push(createCallback(name));
   }
 
   handleBulkImportClose();
@@ -763,10 +682,6 @@ document.getElementById('btn-delete').addEventListener('click', handleDelete);
 // Clear validation on input
 fieldName.addEventListener('input', () => setFieldError(fieldName, 'name-error', false));
 fieldBuiltInVersion.addEventListener('input', () => setFieldError(fieldBuiltInVersion, 'builtin-version-error', false));
-fieldReturnType.addEventListener('input', () => {
-  setFieldError(fieldReturnType, 'return-type-error', false);
-  syncCheckboxes('qs-return-type', fieldReturnType.value);
-});
 
 // Search
 searchInput.addEventListener('input', () => {
@@ -805,11 +720,3 @@ document.addEventListener('keydown', (e) => {
 
 // Argument modal: clear validation on input
 argFieldName.addEventListener('input', () => setFieldError(argFieldName, 'arg-name-error', false));
-argFieldDatatype.addEventListener('input', () => {
-  setFieldError(argFieldDatatype, 'arg-datatype-error', false);
-  syncCheckboxes('qs-arg-datatype', argFieldDatatype.value);
-});
-
-// Initialize data type components
-setupDataTypeComponent('field-return-type', 'qs-return-type');
-setupDataTypeComponent('arg-field-datatype', 'qs-arg-datatype');

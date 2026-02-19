@@ -187,7 +187,7 @@ function serializeStr(s) {
 
 /** Serialize the current variables array to a YAML string. */
 function serializeYaml() {
-  let yaml = `FormatVersion: "2.0"\n`;
+  let yaml = `FormatVersion: 1.0.0\n`;
   yaml += `Data:\n`;
 
   for (const v of variables) {
