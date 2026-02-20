@@ -292,7 +292,7 @@ function serializeYaml() {
 // Data Type Component
 // ============================================================
 
-const DATA_TYPES = ['V', 'I', 'R', 'S', 'B', 'P', 'I[]', 'R[]', 'S[]', 'B[]'];
+const DATA_TYPES = ['V', 'I', 'R', 'S', 'B', 'P', 'I[]', 'R[]', 'S[]', 'B[]', 'ui_*', '*'];
 
 /**
  * Parse a data type string like "I||S[]" into an array of types.
