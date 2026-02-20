@@ -1,4 +1,4 @@
-# 進捗・未解決事項
+# 現在の状態（2026-02-20 更新）
 
 ## 完了済み
 
@@ -36,6 +36,13 @@ VariableType プルダウン（10種）・RequireInitializer チェックボッ�
 ### ファビコン指定（2026-02-20）
 
 全HTMLファイル（`apps/index.html` および各エディタの `index.html`）に `<link rel="icon" type="image/png">` を追加。
+詳細は `docs/tasks/logs/2026-02-20.md` を参照。
+
+### データ型追加への対応（2026-02-20）
+
+`ui_*`（任意のUIデータ型）と `*`（任意のデータ型）を各エディタへ反映。
+- コマンドエディタ：`DATA_TYPES` 定数・ReturnType / Arguments DataType の Quick Selection チェックボックスに追加
+- UIタイプエディタ：VariableType プルダウンに `*` を追加（`ui_*` は仕様上除外）
 詳細は `docs/tasks/logs/2026-02-20.md` を参照。
 
 ## 未着手
