@@ -45,6 +45,14 @@ VariableType プルダウン（10種）・RequireInitializer チェックボッ�
 - UIタイプエディタ：VariableType プルダウンに `*` を追加（`ui_*` は仕様上除外）
 詳細は `docs/tasks/logs/2026-02-20.md` を参照。
 
+### コールバックエディタへの DataType 追加（2026-02-21）
+
+コールバックエディタの引数に `DataType` フィールドを追加（schema v1.1.0 対応）。
+- 引数編集モーダルに DataType 入力・Quick Selection（コマンドエディタと同等）を追加
+- YAML 出力の FormatVersion を `1.1.0` に更新、Arguments に `DataType` フィールドを出力
+- コマンド・コールバック・UIタイプの Arguments テーブルに `table-layout: fixed` を適用しはみ出し問題を修正
+詳細は `docs/tasks/logs/2026-02-21.md` を参照。
+
 ## 未着手
 
 なし

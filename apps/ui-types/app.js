@@ -326,6 +326,7 @@ function renderArgTable(args) {
     const tdName = document.createElement('td');
     tdName.className = 'arg-td-name';
     tdName.textContent = arg.Name || '';
+    tdName.title = arg.Name || '';
 
     const tdDesc = document.createElement('td');
     tdDesc.className = 'arg-td-desc';
