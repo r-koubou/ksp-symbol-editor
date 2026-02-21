@@ -97,6 +97,7 @@
               <thead>
                 <tr>
                   <th>Name</th>
+                  <th>Data Type</th>
                   <th>Description</th>
                   <th>Action</th>
                 </tr>
@@ -141,6 +142,29 @@
         <label for="arg-field-name">Argument Name</label>
         <input type="text" id="arg-field-name" placeholder="arg_name">
         <span class="field-error-msg" id="arg-name-error">This field is required</span>
+      </div>
+      <div class="form-group">
+        <label>Data Type</label>
+        <div class="data-type-input-group">
+          <input type="text" id="arg-field-datatype" placeholder="e.g. I, S[], I||R, I[]||S">
+          <span class="field-error-msg" id="arg-datatype-error">This field is required</span>
+          <p class="data-type-hint">Use <code>||</code> to separate multiple types. Add <code>[]</code> after type for arrays.</p>
+        </div>
+        <div class="quick-selection" id="qs-arg-datatype">
+          <div class="quick-selection-label">Quick Selection:</div>
+          <label class="qs-item"><input type="checkbox" value="V"> Void (V)</label>
+          <label class="qs-item"><input type="checkbox" value="I"> Integer (I)</label>
+          <label class="qs-item"><input type="checkbox" value="R"> Real (R)</label>
+          <label class="qs-item"><input type="checkbox" value="S"> String (S)</label>
+          <label class="qs-item"><input type="checkbox" value="B"> Boolean (B)</label>
+          <label class="qs-item"><input type="checkbox" value="P"> Preprocessor (P)</label>
+          <label class="qs-item"><input type="checkbox" value="I[]"> Integer[] (I[])</label>
+          <label class="qs-item"><input type="checkbox" value="R[]"> Real[] (R[])</label>
+          <label class="qs-item"><input type="checkbox" value="S[]"> String[] (S[])</label>
+          <label class="qs-item"><input type="checkbox" value="B[]"> Boolean[] (B[])</label>
+          <label class="qs-item"><input type="checkbox" value="ui_*"> UI Type (ui_*)</label>
+          <label class="qs-item"><input type="checkbox" value="*"> Any (*)</label>
+        </div>
       </div>
       <div class="form-group">
         <label for="arg-field-description">Description</label>

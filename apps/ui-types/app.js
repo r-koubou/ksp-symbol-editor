@@ -29,6 +29,7 @@ const modalBulkImport        = document.getElementById('modal-bulk-import');
 const bulkImportText         = document.getElementById('bulk-import-text');
 const modalArgEdit           = document.getElementById('modal-arg-edit');
 const argFieldName           = document.getElementById('arg-field-name');
+const argFieldDatatype       = document.getElementById('arg-field-datatype');
 const argFieldDescription    = document.getElementById('arg-field-description');
 
 // ============================================================
@@ -214,6 +215,64 @@ function parseFieldInto(obj, str) {
 }
 
 // ============================================================
+// Data Type Component
+// ============================================================
+
+const DATA_TYPES = ['V', 'I', 'R', 'S', 'B', 'P', 'I[]', 'R[]', 'S[]', 'B[]', 'ui_*', '*'];
+
+/**
+ * Parse a data type string like "I||S[]" into an array of types.
+ */
+function parseDataTypes(text) {
+  if (!text || text.trim() === '') return [];
+  return text.split('||').map(t => t.trim()).filter(t => t !== '');
+}
+
+/**
+ * Sync Quick Selection checkboxes from a text input value.
+ */
+function syncCheckboxes(qsContainerId, text) {
+  const selected = new Set(parseDataTypes(text));
+  const container = document.getElementById(qsContainerId);
+  container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.checked = selected.has(cb.value);
+  });
+}
+
+/**
+ * Build data type string from checked checkboxes in a Quick Selection container.
+ * Preserve the canonical order from DATA_TYPES.
+ */
+function buildTextFromCheckboxes(qsContainerId) {
+  const container = document.getElementById(qsContainerId);
+  const checked = [];
+  container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    if (cb.checked) checked.push(cb.value);
+  });
+  return checked.join('||');
+}
+
+/**
+ * Set up bidirectional sync between a text input and a Quick Selection container.
+ */
+function setupDataTypeComponent(inputId, qsContainerId) {
+  const input = document.getElementById(inputId);
+  const container = document.getElementById(qsContainerId);
+
+  // Text → checkboxes
+  input.addEventListener('input', () => {
+    syncCheckboxes(qsContainerId, input.value);
+  });
+
+  // Checkboxes → text
+  container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      input.value = buildTextFromCheckboxes(qsContainerId);
+    });
+  });
+}
+
+// ============================================================
 // YAML Serialization
 // ============================================================
 
@@ -261,7 +320,7 @@ function serializeDescription(desc, indent) {
 
 /** Serialize the current uiTypes array to a YAML string. */
 function serializeYaml() {
-  let yaml = `FormatVersion: 1.0.0\n`;
+  let yaml = `FormatVersion: 1.1.0\n`;
   yaml += `Data:\n`;
 
   for (const u of uiTypes) {
@@ -280,6 +339,7 @@ function serializeYaml() {
       yaml += `    InitializerArguments:\n`;
       for (const arg of args) {
         yaml += `      - Name: ${serializeStr(arg.Name)}\n`;
+        yaml += `        DataType: ${serializeStr(arg.DataType)}\n`;
         yaml += serializeDescription(arg.Description, '        ');
       }
     }
@@ -328,6 +388,11 @@ function renderArgTable(args) {
     tdName.textContent = arg.Name || '';
     tdName.title = arg.Name || '';
 
+    const tdType = document.createElement('td');
+    tdType.className = 'arg-td-datatype';
+    tdType.textContent = arg.DataType || '';
+    tdType.title = arg.DataType || '';
+
     const tdDesc = document.createElement('td');
     tdDesc.className = 'arg-td-desc';
     tdDesc.textContent = arg.Description || '';
@@ -350,6 +415,7 @@ function renderArgTable(args) {
     tdAction.appendChild(btnDel);
 
     tr.appendChild(tdName);
+    tr.appendChild(tdType);
     tr.appendChild(tdDesc);
     tr.appendChild(tdAction);
     argTbody.appendChild(tr);
@@ -506,18 +572,22 @@ function openArgModal(idx) {
 
   // Clear validation in modal
   setFieldError(argFieldName, 'arg-name-error', false);
+  setFieldError(argFieldDatatype, 'arg-datatype-error', false);
 
   if (idx === null) {
     argFieldName.value        = '';
+    argFieldDatatype.value    = '';
     argFieldDescription.value = '';
   } else {
     const u = getCurrentUIType();
     if (!u) return;
     const arg = u.InitializerArguments[idx];
     argFieldName.value        = arg.Name || '';
+    argFieldDatatype.value    = arg.DataType || '';
     argFieldDescription.value = arg.Description || '';
   }
 
+  syncCheckboxes('qs-arg-datatype', argFieldDatatype.value);
   modalArgEdit.classList.add('open');
   argFieldName.focus();
 }
@@ -528,17 +598,30 @@ function closeArgModal() {
 }
 
 function saveArg() {
+  let valid = true;
+
   if (argFieldName.value.trim() === '') {
     setFieldError(argFieldName, 'arg-name-error', true);
-    return;
+    valid = false;
+  } else {
+    setFieldError(argFieldName, 'arg-name-error', false);
   }
-  setFieldError(argFieldName, 'arg-name-error', false);
+
+  if (argFieldDatatype.value.trim() === '') {
+    setFieldError(argFieldDatatype, 'arg-datatype-error', true);
+    valid = false;
+  } else {
+    setFieldError(argFieldDatatype, 'arg-datatype-error', false);
+  }
+
+  if (!valid) return;
 
   const u = getCurrentUIType();
   if (!u) return;
 
   const arg = {
     Name:        argFieldName.value.trim(),
+    DataType:    argFieldDatatype.value.trim(),
     Description: argFieldDescription.value,
   };
 
@@ -583,6 +666,7 @@ function handleFileLoad(e) {
         RequireInitializer:   item.RequireInitializer === true,
         InitializerArguments: (item.InitializerArguments || []).map(a => ({
           Name:        a.Name        || '',
+          DataType:    a.DataType    || '',
           Description: a.Description || '',
         })),
       }));
@@ -716,3 +800,10 @@ document.addEventListener('keydown', (e) => {
 
 // Argument modal: clear validation on input
 argFieldName.addEventListener('input', () => setFieldError(argFieldName, 'arg-name-error', false));
+argFieldDatatype.addEventListener('input', () => {
+  setFieldError(argFieldDatatype, 'arg-datatype-error', false);
+  syncCheckboxes('qs-arg-datatype', argFieldDatatype.value);
+});
+
+// Initialize data type components
+setupDataTypeComponent('arg-field-datatype', 'qs-arg-datatype');

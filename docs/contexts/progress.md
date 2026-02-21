@@ -1,4 +1,4 @@
-# 現在の状態（2026-02-20 更新）
+# 現在の状態（2026-02-21 更新）
 
 ## 完了済み
 
@@ -51,6 +51,13 @@ VariableType プルダウン（10種）・RequireInitializer チェックボッ�
 - 引数編集モーダルに DataType 入力・Quick Selection（コマンドエディタと同等）を追加
 - YAML 出力の FormatVersion を `1.1.0` に更新、Arguments に `DataType` フィールドを出力
 - コマンド・コールバック・UIタイプの Arguments テーブルに `table-layout: fixed` を適用しはみ出し問題を修正
+詳細は `docs/tasks/logs/2026-02-21.md` を参照。
+
+### UIタイプエディタへの DataType 追加（2026-02-21）
+
+UIタイプエディタの InitializerArguments に `DataType` フィールドを追加（schema v1.1.0 対応）。
+- 引数編集モーダルに DataType 入力・Quick Selection（コールバックエディタと同等）を追加
+- YAML 出力の FormatVersion を `1.1.0` に更新、InitializerArguments に `DataType` フィールドを出力
 詳細は `docs/tasks/logs/2026-02-21.md` を参照。
 
 ## 未着手
