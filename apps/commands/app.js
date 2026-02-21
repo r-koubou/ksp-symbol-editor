@@ -384,10 +384,12 @@ function renderArgTable(args) {
     const tdName = document.createElement('td');
     tdName.className = 'arg-td-name';
     tdName.textContent = arg.Name || '';
+    tdName.title = arg.Name || '';
 
     const tdType = document.createElement('td');
     tdType.className = 'arg-td-datatype';
     tdType.textContent = arg.DataType || '';
+    tdType.title = arg.DataType || '';
 
     const tdDesc = document.createElement('td');
     tdDesc.className = 'arg-td-desc';

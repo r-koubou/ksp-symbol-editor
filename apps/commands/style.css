@@ -426,10 +426,16 @@ body {
    ============================================================ */
 #arg-table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   font-size: 13px;
   margin-bottom: 12px;
 }
+
+#arg-table th:nth-child(1) { width: 90px; }   /* Name */
+#arg-table th:nth-child(2) { width: 120px; }  /* Data Type */
+/* nth-child(3) = Description: remaining space */
+#arg-table th:nth-child(4) { width: 130px; }  /* Action */
 
 #arg-table thead th {
   text-align: left;
@@ -457,12 +463,16 @@ body {
 .arg-td-name {
   font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
   font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .arg-td-datatype {
   font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
   font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 

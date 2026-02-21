@@ -366,14 +366,77 @@ body {
 }
 
 /* ============================================================
+   Data Type Component
+   ============================================================ */
+.data-type-input-group {
+  margin-bottom: 12px;
+}
+
+.data-type-hint {
+  margin-top: 5px;
+  font-size: 11px;
+  color: #9ca3af;
+  line-height: 1.4;
+}
+
+.data-type-hint code {
+  background: #f3f4f6;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+  font-size: 11px;
+  color: #374151;
+}
+
+.quick-selection {
+  background: #f8f9fa;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+
+.quick-selection-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.qs-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+  padding: 3px 0;
+}
+
+.qs-item input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  accent-color: #4f86e8;
+}
+
+/* ============================================================
    Arguments Table
    ============================================================ */
 #arg-table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   font-size: 13px;
   margin-bottom: 12px;
 }
+
+#arg-table th:nth-child(1) { width: 90px; }   /* Name */
+#arg-table th:nth-child(2) { width: 120px; }  /* Data Type */
+#arg-table th:nth-child(3) { width: 70px; }   /* Required */
+/* nth-child(4) = Description: remaining space */
+#arg-table th:nth-child(5) { width: 130px; }  /* Action */
 
 #arg-table thead th {
   text-align: left;
@@ -401,6 +464,16 @@ body {
 .arg-td-name {
   font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
   font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.arg-td-datatype {
+  font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -584,7 +657,7 @@ body {
 
 /* Argument Edit Modal specific */
 .modal-content-arg {
-  width: 480px;
+  width: 560px;
   max-height: 90vh;
   overflow-y: auto;
 }

@@ -13,4 +13,3 @@ UIレイアウトは以下を参照すること。
 1. **全体像**: `appendix/callback-editor.jpg` を参照。
 2. **引数のリストのUI**: `appendix/argument-list-edit.jpg` を参照。
     - **引数の編集**: モーダルダイアログ。 `appendix/argument-edit.jpg` を参照。
-

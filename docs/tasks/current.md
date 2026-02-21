@@ -45,4 +45,4 @@ index 6a4a154abca67ac77a130f72c73a49bbfeb53b24..5fc548667ffcd46ac4e6b1b5fb4befe0
 
 ## タスク内容
 
-- [ ] 既存のHTML/JSの修正
+- [x] 既存のHTML/JSの修正
