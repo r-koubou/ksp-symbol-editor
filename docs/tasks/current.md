@@ -2,15 +2,15 @@
 
 ## ゴールの詳細
 
-コールバックエディタの引数エディタに他のエディタと同様にデータ型の選択できるようになること。
+UIエディタの初期化引数編集画面を他のエディタと同様にデータ型の選択できるようになること。
 
-docs/specs/yaml-data-schema/callback-schema.yaml の Arguments に前回までは無かった項目 `DataType` を追加した。
+docs/specs/yaml-data-schema/ui-type-schema.yaml に前回までは無かった項目 `DataType` を追加した。
 
 ```diff
-diff --git forkSrcPrefix/docs/specs/yaml-data-schema/callback-schema.yaml forkDstPrefix/docs/specs/yaml-data-schema/callback-schema.yaml
-index 6a4a154abca67ac77a130f72c73a49bbfeb53b24..5fc548667ffcd46ac4e6b1b5fb4befe0d3bee508 100644
---- forkSrcPrefix/docs/specs/yaml-data-schema/callback-schema.yaml
-+++ forkDstPrefix/docs/specs/yaml-data-schema/callback-schema.yaml
+diff --git forkSrcPrefix/docs/specs/yaml-data-schema/ui-type-schema.yaml forkDstPrefix/docs/specs/yaml-data-schema/ui-type-schema.yaml
+index a8d5dbd8288cfcb399166b3ffcec5d86b89b97da..464b2dfdbb5a4b5563fc5f290fbd0e6de081f923 100644
+--- forkSrcPrefix/docs/specs/yaml-data-schema/ui-type-schema.yaml
++++ forkDstPrefix/docs/specs/yaml-data-schema/ui-type-schema.yaml
 @@ -8,7 +8,7 @@ additionalProperties: false
  properties:
    FormatVersion:
@@ -20,28 +20,35 @@ index 6a4a154abca67ac77a130f72c73a49bbfeb53b24..5fc548667ffcd46ac4e6b1b5fb4befe0
    Data:
      type: array
      items:
-@@ -48,11 +48,14 @@ $defs:
+@@ -53,11 +53,13 @@ $defs:
      type: object
      required:
        - Name
 +      - DataType
-       - RequiredDeclare
      additionalProperties: false
      properties:
        Name:
          type: string
 +      DataType:
 +        type: string
-       RequiredDeclare:
-         type: boolean
-         default: true
+       Description:
+         type: string
+         default: ""
+-
 ```
 
 ### 成果物の要件
 
-- コールバックエディタの引数編集画面で、引数のデータ型を選択できるようにする。
+- UIエディタの初期化引数編集画面で、引数のデータ型を選択できるようにする。
 - コマンドエディタの引数編集画面と同様のレイアウト
 - YAMLの入出力にも DataType が反映されていること
+
+## 特記事項
+
+前回のタスクでは、文字がはみ出る問題を解決するために、引数の編集画面のレイアウトを変更した。
+この点にも中止ながら実装すること。
+
+詳細は1つ前のコミット 65e52ef5d4475d79b9e862503837b1a6cab1c70b を参照。
 
 ## タスク内容
 
