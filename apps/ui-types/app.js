@@ -218,7 +218,7 @@ function parseFieldInto(obj, str) {
 // Data Type Component
 // ============================================================
 
-const DATA_TYPES = ['V', 'I', 'R', 'S', 'B', 'P', 'I[]', 'R[]', 'S[]', 'B[]', 'ui_*', '*'];
+const DATA_TYPES = ['V', 'I', 'R', 'S', 'B', 'P', 'K', 'I[]', 'R[]', 'S[]', 'B[]', 'K[]', 'ui_*', '*'];
 
 /**
  * Parse a data type string like "I||S[]" into an array of types.
