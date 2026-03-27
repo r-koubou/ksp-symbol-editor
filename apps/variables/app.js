@@ -6,6 +6,7 @@
 let variables = [];
 let selectedId = null;
 let searchQuery = '';
+let newlyAddedIds = new Set();
 
 // ============================================================
 // DOM References
@@ -227,6 +228,7 @@ function renderSymbolList() {
     li.textContent = v.Name || '(unnamed)';
     li.dataset.id = v.Id;
     if (v.Id === selectedId) li.classList.add('active');
+    if (newlyAddedIds.has(v.Id)) li.classList.add('newly-added');
     li.addEventListener('click', () => selectSymbol(v.Id));
     symbolListEl.appendChild(li);
   }
@@ -378,6 +380,7 @@ function handleFileLoad(e) {
         Description:      item.Description      || '',
         BuiltIntoVersion: item.BuiltIntoVersion || 'N/A',
       }));
+      newlyAddedIds.clear();
       showPlaceholder();
       renderSymbolList();
       showNotification(`Loaded ${variables.length} symbol(s)`);
@@ -403,9 +406,11 @@ function handleExport() {
 
 function handleNewSymbol() {
   const v = createVariable();
+  newlyAddedIds.add(v.Id);
   variables.push(v);
   renderSymbolList();
   selectSymbol(v.Id);
+  symbolListEl.querySelector(`[data-id="${v.Id}"]`)?.scrollIntoView({ block: 'nearest' });
   fieldName.focus();
   showNotification('New symbol created');
 }
@@ -443,12 +448,19 @@ function handleBulkImportConfirm() {
     .map(l => l.trim())
     .filter(l => l !== '');
 
+  let lastId = null;
   for (const name of names) {
-    variables.push(createVariable(name, `Built-in Variable: ${name}`));
+    const v = createVariable(name, `Built-in Variable: ${name}`);
+    newlyAddedIds.add(v.Id);
+    variables.push(v);
+    lastId = v.Id;
   }
 
   handleBulkImportClose();
   renderSymbolList();
+  if (lastId) {
+    symbolListEl.querySelector(`[data-id="${lastId}"]`)?.scrollIntoView({ block: 'nearest' });
+  }
   showNotification(`Imported ${names.length} symbol(s)`);
 }
 

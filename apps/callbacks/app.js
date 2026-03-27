@@ -7,6 +7,7 @@ let callbacks = [];
 let selectedId = null;
 let searchQuery = '';
 let editingArgIndex = null; // null = new, number = editing index
+let newlyAddedIds = new Set();
 
 // ============================================================
 // DOM References
@@ -364,6 +365,7 @@ function renderSymbolList() {
     li.textContent = c.Name || '(unnamed)';
     li.dataset.id = c.Id;
     if (c.Id === selectedId) li.classList.add('active');
+    if (newlyAddedIds.has(c.Id)) li.classList.add('newly-added');
     li.addEventListener('click', () => selectSymbol(c.Id));
     symbolListEl.appendChild(li);
   }
@@ -675,6 +677,7 @@ function handleFileLoad(e) {
           Description:     a.Description     || '',
         })),
       }));
+      newlyAddedIds.clear();
       showPlaceholder();
       renderSymbolList();
       showNotification(`Loaded ${callbacks.length} symbol(s)`);
@@ -700,9 +703,11 @@ function handleExport() {
 
 function handleNewSymbol() {
   const c = createCallback();
+  newlyAddedIds.add(c.Id);
   callbacks.push(c);
   renderSymbolList();
   selectSymbol(c.Id);
+  symbolListEl.querySelector(`[data-id="${c.Id}"]`)?.scrollIntoView({ block: 'nearest' });
   fieldName.focus();
   showNotification('New symbol created');
 }
@@ -740,12 +745,19 @@ function handleBulkImportConfirm() {
     .map(l => l.trim())
     .filter(l => l !== '');
 
+  let lastId = null;
   for (const name of names) {
-    callbacks.push(createCallback(name));
+    const c = createCallback(name);
+    newlyAddedIds.add(c.Id);
+    callbacks.push(c);
+    lastId = c.Id;
   }
 
   handleBulkImportClose();
   renderSymbolList();
+  if (lastId) {
+    symbolListEl.querySelector(`[data-id="${lastId}"]`)?.scrollIntoView({ block: 'nearest' });
+  }
   showNotification(`Imported ${names.length} symbol(s)`);
 }
 
