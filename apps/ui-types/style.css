@@ -131,15 +131,30 @@ body {
 }
 
 #symbol-list li:hover {
-  background: #eff6ff;
-  border-color: #bfdbfe;
+  background: #e6f0fd;
+  border-color: #a8c9f8;
 }
 
 #symbol-list li.active {
-  background: #dbeafe;
-  border-color: #93c5fd;
+  background: #cde0fa;
+  border-color: #78b2f5;
   font-weight: 500;
   color: #1d4ed8;
+}
+
+#symbol-list li.newly-added {
+  background: #f0fdf4;
+  border-color: #86efac;
+}
+
+#symbol-list li.newly-added:hover {
+  background: #dcfce7;
+  border-color: #6ee7a0;
+}
+
+#symbol-list li.newly-added.active {
+  background: #cde0fa;
+  border-color: #78b2f5;
 }
 
 /* ============================================================

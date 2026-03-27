@@ -7,6 +7,7 @@ let uiTypes = [];
 let selectedId = null;
 let searchQuery = '';
 let editingArgIndex = null; // null = new, number = editing index
+let newlyAddedIds = new Set();
 
 // ============================================================
 // DOM References
@@ -364,6 +365,7 @@ function renderSymbolList() {
     li.textContent = u.Name || '(unnamed)';
     li.dataset.id = u.Id;
     if (u.Id === selectedId) li.classList.add('active');
+    if (newlyAddedIds.has(u.Id)) li.classList.add('newly-added');
     li.addEventListener('click', () => selectSymbol(u.Id));
     symbolListEl.appendChild(li);
   }
@@ -670,6 +672,7 @@ function handleFileLoad(e) {
           Description: a.Description || '',
         })),
       }));
+      newlyAddedIds.clear();
       showPlaceholder();
       renderSymbolList();
       showNotification(`Loaded ${uiTypes.length} symbol(s)`);
@@ -695,9 +698,11 @@ function handleExport() {
 
 function handleNewSymbol() {
   const u = createUIType();
+  newlyAddedIds.add(u.Id);
   uiTypes.push(u);
   renderSymbolList();
   selectSymbol(u.Id);
+  symbolListEl.querySelector(`[data-id="${u.Id}"]`)?.scrollIntoView({ block: 'nearest' });
   fieldName.focus();
   showNotification('New symbol created');
 }
@@ -735,12 +740,19 @@ function handleBulkImportConfirm() {
     .map(l => l.trim())
     .filter(l => l !== '');
 
+  let lastId = null;
   for (const name of names) {
-    uiTypes.push(createUIType(name));
+    const u = createUIType(name);
+    newlyAddedIds.add(u.Id);
+    uiTypes.push(u);
+    lastId = u.Id;
   }
 
   handleBulkImportClose();
   renderSymbolList();
+  if (lastId) {
+    symbolListEl.querySelector(`[data-id="${lastId}"]`)?.scrollIntoView({ block: 'nearest' });
+  }
   showNotification(`Imported ${names.length} symbol(s)`);
 }
 
